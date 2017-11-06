@@ -1,0 +1,1 @@
+gcc -O3 -Wall -o tybogfx main.c tybo_compression.c
