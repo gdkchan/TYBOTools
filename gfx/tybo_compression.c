@@ -223,6 +223,9 @@ s32_t tybo_compress(u8_t  *cmp,
         if ((queue_cnt += token_bits) > 16) { \
             queue_cnt -= 16; \
 \
+            if (token_pos0 >= *cmp_len) \
+                return TYBO_ERR_OUTPUT_OVERRUN; \
+\
             cmp[token_pos0 + 0] = (u8_t)(queue >> 16); \
             cmp[token_pos0 + 1] = (u8_t)(queue >> 24); \
 \
@@ -234,10 +237,6 @@ s32_t tybo_compress(u8_t  *cmp,
 \
             token_pos0 = token_pos1; \
             token_pos1 = cmp_pos; \
-\
-            if (token_pos0 >= *cmp_len) { \
-                return TYBO_ERR_OUTPUT_OVERRUN; \
-            } \
 \
             cmp_pos += 2; \
 \
@@ -376,10 +375,14 @@ s32_t tybo_compress(u8_t  *cmp,
     token      = 0x1fc;
     token_bits = 14 + 16;
 
-    TOKEN_ENC;
-
     *cmp_len = cmp_pos;
     *dec_len = dec_pos;
+
+    if (cmp_pos == token_pos1 + 2) {
+        *cmp_len = token_pos1;
+    }
+
+    TOKEN_ENC;
 
     return TYBO_ERR_SUCCESS;
 }

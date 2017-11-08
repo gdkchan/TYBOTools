@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     printf("TYBOGfx Tadaima Yuusha Boshuuchuu Okawari Graphics (De)Compressor\n");
     printf("This is FREE software released into the PUBLIC DOMAIN\n");
     printf("0xc0ded by gdkchan\n");
-    printf("Version 1.0\n\n");
+    printf("Version 1.1\n\n");
 
     if (argc != 5) {
         print_usage();
@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
 
             scanf("%c", &choice);
 
-            if (choice == 'n') {
+            if (choice != 'y') {
                 e_code = EXIT_SUCCESS;
 
                 goto program_exit;
